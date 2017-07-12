@@ -1,4 +1,6 @@
-import { Component } from '@angular/core';
+import { Component,OnInit } from '@angular/core';
+import {PlayerService} from './player.service'
+import {Player} from './player'
 
 @Component({
   selector: 'app-root',
@@ -6,5 +8,15 @@ import { Component } from '@angular/core';
   styleUrls: ['./app.component.css']
 })
 export class AppComponent {
-  title = 'app';
+  player:Player;
+
+  constructor(private _playerService: PlayerService){
+    this.player = this._playerService.getPlayer();
+
+  }
+  ngOnInit(){
+
+  }
+
+
 }
