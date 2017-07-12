@@ -12,14 +12,11 @@ import {PlayerService} from './player.service'
 @Component({
   selector: 'fightview',
   template: `
-
-
-
+<div class="container">
     <div class="row text-center">
       <div class="col-md-6">
         <player [player]="player"></player>
       </div>
-
       <div class="col-md-6">
         <monster [monster]="monster"></monster>
       </div>
@@ -51,6 +48,7 @@ import {PlayerService} from './player.service'
           <li *ngFor="let item of eq"  style="font-family:'Comic Sans MS'; font-size:1.5em">{{item.name}} </li>
         </ul>
       </div>
+    </div>
 
     </div>
     `,
@@ -162,7 +160,6 @@ export class FightViewComponent {
     this.counter = 0;
   }
 
-
   nextMonster(): void {
     this.respawnMonsters();
     this.monster = this.MONSTERS[Math.floor((Math.random() * (this.MONSTERS.length - 1)))];
@@ -193,9 +190,9 @@ export class FightViewComponent {
   }
 
   ITEMS: Item[] = [
-    { id: 0, name: "Sword", atk: 10, def: 0 },
-    { id: 1, name: "Axe", atk: 8, def: 2 },
-    { id: 2, name: "Shield", atk: 0, def: 10 },
+    { id: 0, name: "Sword",type: 'weapon', atk: 10, def: 0 },
+    { id: 1, name: "Axe", type: 'weapon',atk: 8, def: 2 },
+    { id: 2, name: "Shield", type: 'shield',atk: 0, def: 10 },
   ]
 
 }

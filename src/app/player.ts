@@ -5,9 +5,9 @@ export class Player {
   name: string;
   maxHp: number;
   hp: number;
-  atk : number;
-  exp:number;
-  lvl:number;
-  eq:Item[];
-  alive :boolean;
+  atk: number;
+  exp: number;
+  lvl: number;
+  eq: Item[];
+  alive: boolean;
 }

@@ -15,20 +15,20 @@ export class PlayerService {
     exp: 0,
     lvl: 1,
     eq: [],
-    alive:true
+    alive: true
   }
 
-  respawnPlayer(): Player{
+  respawnPlayer(): Player {
     this.player = {
-    id: 1,
-    name: "Kacper",
-    maxHp: 150,
-    hp: 150,
-    atk: 10,
-    exp: 0,
-    lvl: 1,
-    eq: [],
-    alive:true
+      id: 1,
+      name: "Kacper",
+      maxHp: 150,
+      hp: 150,
+      atk: 10,
+      exp: 0,
+      lvl: 1,
+      eq: [],
+      alive: true
     }
     return this.player;
   }
