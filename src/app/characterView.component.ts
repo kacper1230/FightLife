@@ -3,7 +3,7 @@ import {ActivatedRoute} from '@angular/router'
 import {PlayerComponent} from './player.component'
 import {PlayerService} from './player.service'
 import {Player} from './player'
-
+import {Item} from './item'
 
 
 @Component({
@@ -26,12 +26,14 @@ import {Player} from './player'
                 <th>Name</th>
                 <th>Attack</th>
                 <th>Defense</th>
+                <th>Options</th>
               </thead>
               <tbody>
                 <tr *ngFor="let item of player.eq">
                   <td>{{item.name}}</td>
                   <td>{{item.atk}}</td>
                   <td>{{item.def}}</td>
+                  <td><input type="button" class="btn btn-default" *ngIf="item.type == 'heal'" value="Use" (click)="use(item)"></td>
                 </tr>
               </tbody>
 
@@ -48,6 +50,23 @@ export class CharacterViewComponent {
 
   constructor(private _playerService: PlayerService) {
     this.player = this._playerService.getPlayer();
+  }
+
+  use(item : Item):void{
+    if(item.type == 'heal'){
+        if(this.player.hp + 20 > this.player.maxHp){
+            this.player.hp = this.player.maxHp;
+            this.player.eq.splice(this.player.eq.findIndex(item => item.name === item.name)-1,1);
+        }else{
+          this.player.eq.splice(this.player.eq.findIndex(item => item.name === item.name)-1,1);
+          this.player.hp += 20;
+        };
+    }
+
+
+
+
+
   }
 
   ngOnInit() {

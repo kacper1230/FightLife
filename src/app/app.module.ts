@@ -18,6 +18,7 @@ const appRoutes:Routes = [
   {path: 'fightView', component: FightViewComponent},
   {path: 'shop', component: ShopComponent},
   {path: '', component: HomeComponent},
+  {path: '**', redirectTo: ''},
   //{path: 'shop',component: CharacterViewComponent}
 ];
 

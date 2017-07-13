@@ -30,9 +30,9 @@ import {PlayerService} from './player.service'
   <!--    <input type="button" class="btn btn-default" (click)="nextTurn()" value="Nastepna tura"> -->
   <!--    <input type="button" class="btn btn-default" (click)="levelUp(player)" value="Dodaj se levela gosciu">-->
   <!--    <input type="button" class="btn btn-default" (click)="heal()" value="dodaj zycie">-->
-  <!--    <input type="button" class="btn btn-default" (click)="nextMonster()" value="Wylosuj nowego przeciwnika">-->
+      <input type="button" class="btn btn-default" (click)="nextMonster()" value="Wylosuj nowego przeciwnika">
   <!--    <input type="button" class="btn btn-default" (click)="restart()" value="zrestartuj">-->
-
+      <input type="button" class="btn btn-default" (click)="restart()" value="Zacznij od nowa" *ngIf="player.alive == false">
   </div>
 </div>
     <br>
@@ -45,7 +45,7 @@ import {PlayerService} from './player.service'
       <div class="panel-footer">
       <div class="text" style="font-family:'Comic Sans MS'; font-size:3em">Loot : </div>
         <ul>
-          <li *ngFor="let item of eq"  style="font-family:'Comic Sans MS'; font-size:1.5em">{{item.name}} </li>
+          <li *ngFor="let item of loot"  style="font-family:'Comic Sans MS'; font-size:1.5em">{{item.name}} </li>
         </ul>
       </div>
     </div>
@@ -67,7 +67,7 @@ export class FightViewComponent {
   counter: number;
   prog: number = 40;
   player: Player;
-  eq: Item[];
+  loot :Item[];
 
   constructor(private _monsterService: MonsterService, private _playerService: PlayerService) {
     this.player = this._playerService.player;
@@ -78,7 +78,6 @@ export class FightViewComponent {
 
   ngOnInit() {
     this.MONSTERS = this._monsterService.getMonsters();
-    this.eq = this.player.eq;
     this.nextMonster();
   }
 
@@ -111,9 +110,10 @@ export class FightViewComponent {
       if (this.player.exp >= this.prog) {
         this.levelUp(this.player);
       }
-
+      gracz.gold += Math.floor((Math.random()*40)+1);
       if ((Math.round(Math.random() * 99) + 1) >= przeciwnik.dropChance) {
         var los: number = Math.round(Math.random() * (przeciwnik.drop.length - 1));
+        console.log(przeciwnik.drop[los]);
         gracz.eq.push(przeciwnik.drop[los]); // ------------------------------Tablica zaczyna sie od 0
         this.message = this.message + "Wydropiles : " + przeciwnik.drop[los].name + "\n";
       } else this.message = this.message + "Nic nie wypadlo gnoju \n";
@@ -142,8 +142,8 @@ export class FightViewComponent {
 
   nextTurn(): void {
     if (this.player.hp <= 0) {
-      this.stopFight();
       this.die();
+      this.stopFight();
     } else {
       if (this.monster.hp <= 0) {
         this.nextMonster();
@@ -158,11 +158,18 @@ export class FightViewComponent {
     this.prog = 40;
     this.nextMonster();
     this.counter = 0;
+    this.message = "";
   }
 
   nextMonster(): void {
     this.respawnMonsters();
-    this.monster = this.MONSTERS[Math.floor((Math.random() * (this.MONSTERS.length - 1)))];
+    var lvlMonsterow;
+    if(this.player.lvl > this.MONSTERS.length){
+      lvlMonsterow = this.MONSTERS.length;
+    }else {
+      lvlMonsterow = this.player.lvl;
+    }
+    this.monster = this.MONSTERS[Math.floor((Math.random() * lvlMonsterow)) ];
   }
 
   levelUp(gracz: Player): void {
@@ -181,8 +188,6 @@ export class FightViewComponent {
   die(): void {
     this.player.alive = false;
     this.message = "umarles se";
-    this.respawnPlayer();
-    this.respawnMonsters();
   }
 
   heal(): void {
@@ -190,9 +195,10 @@ export class FightViewComponent {
   }
 
   ITEMS: Item[] = [
-    { id: 0, name: "Sword",type: 'weapon', atk: 10, def: 0 },
-    { id: 1, name: "Axe", type: 'weapon',atk: 8, def: 2 },
-    { id: 2, name: "Shield", type: 'shield',atk: 0, def: 10 },
+    { id: 0, name: "Sword",type: 'weapon', atk: 10, def: 0,value:8 },
+    { id: 1, name: "Axe", type: 'weapon',atk: 8, def: 2,value:12 },
+    { id: 2, name: "Shield", type: 'shield',atk: 0, def: 10,value:10},
+    { id: 3, name: "Small healing potion", type:'heal',atk: 0, def: 0,value:20 },
   ]
 
 }

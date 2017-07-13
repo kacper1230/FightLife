@@ -15,7 +15,8 @@ export class PlayerService {
     exp: 0,
     lvl: 1,
     eq: [],
-    alive: true
+    alive: true,
+    gold: 0,
   }
 
   respawnPlayer(): Player {
@@ -28,7 +29,9 @@ export class PlayerService {
       exp: 0,
       lvl: 1,
       eq: [],
-      alive: true
+      alive: true,
+      gold : 0,
+
     }
     return this.player;
   }

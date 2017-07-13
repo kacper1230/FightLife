@@ -10,4 +10,5 @@ export class Player {
   lvl: number;
   eq: Item[];
   alive: boolean;
+  gold : number;
 }

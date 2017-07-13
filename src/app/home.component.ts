@@ -15,6 +15,7 @@ import {MonsterService} from './monster.service'
           Imie : {{player.name}}<br>
           Hp : {{player.hp}}<br>
           atk : {{player.atk}}<br>
+          gold : {{player.gold}}
 
       </div>
       <div class="col-md-6" style="border:2px solid blue;">

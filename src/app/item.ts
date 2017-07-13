@@ -4,4 +4,5 @@ export class Item {
   type: string;
   atk : number;
   def:number;
+  value : number;
 }

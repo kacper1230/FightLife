@@ -12,6 +12,7 @@ import {Item} from './item'
     Atk gracza : {{player.atk}} <br>
     Exp : {{player.exp}} <br>
     Level : {{player.lvl}}<br>
+    Gold : {{player.gold}}
 
     `
 })
