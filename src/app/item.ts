@@ -4,5 +4,6 @@ export class Item {
   type: string;
   atk : number;
   def:number;
+  equipped:boolean;
   value : number;
 }

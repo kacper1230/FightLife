@@ -10,6 +10,7 @@ import {Item} from './item'
     <h1>{{player.name}}</h1>
     Hp gracza : {{player.hp}} <br>
     Atk gracza : {{player.atk}} <br>
+    Def gracza : {{player.def}} <br>
     Exp : {{player.exp}} <br>
     Level : {{player.lvl}}<br>
     Gold : {{player.gold}}

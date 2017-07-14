@@ -7,6 +7,7 @@ import {Item} from './item'
 import {MonsterService} from './monster.service'
 import {CharacterViewComponent} from './characterView.component'
 import {PlayerService} from './player.service'
+import {ITEMS} from './mock-items'
 
 
 @Component({
@@ -113,7 +114,6 @@ export class FightViewComponent {
       gracz.gold += Math.floor((Math.random()*40)+1);
       if ((Math.round(Math.random() * 99) + 1) >= przeciwnik.dropChance) {
         var los: number = Math.round(Math.random() * (przeciwnik.drop.length - 1));
-        console.log(przeciwnik.drop[los]);
         gracz.eq.push(przeciwnik.drop[los]); // ------------------------------Tablica zaczyna sie od 0
         this.message = this.message + "Wydropiles : " + przeciwnik.drop[los].name + "\n";
       } else this.message = this.message + "Nic nie wypadlo gnoju \n";
@@ -194,11 +194,6 @@ export class FightViewComponent {
     this.player.hp = this.player.maxHp;
   }
 
-  ITEMS: Item[] = [
-    { id: 0, name: "Sword",type: 'weapon', atk: 10, def: 0,value:8 },
-    { id: 1, name: "Axe", type: 'weapon',atk: 8, def: 2,value:12 },
-    { id: 2, name: "Shield", type: 'shield',atk: 0, def: 10,value:10},
-    { id: 3, name: "Small healing potion", type:'heal',atk: 0, def: 0,value:20 },
-  ]
+  ITEMS: Item[] = ITEMS;
 
 }

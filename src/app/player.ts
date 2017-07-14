@@ -6,6 +6,7 @@ export class Player {
   maxHp: number;
   hp: number;
   atk: number;
+  def:number;
   exp: number;
   lvl: number;
   eq: Item[];
