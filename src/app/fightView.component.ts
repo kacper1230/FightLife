@@ -14,14 +14,22 @@ import {Place} from './place'
 
 @Component({
   selector: 'fightview',
+  styles:[`
+    p{
+      border:2px solid green;
+    }
+    .active{
+      borded:2px solid blue;
+    }
+
+
+    `],
   template: `
 <div class="container-fluid">
     <div class="row text-center">
       <div class="col-md-2">
-        <h3>Miejsca</h3>
-          <ul>
-            <li *ngFor="let place of places" (click)="setScope(place)">{{place.name}}</li>
-          </ul>
+        <h3>Lokacje</h3>
+            <p *ngFor="let place of places" (click)="setScope(place)">{{place.name}}</p>
       </div>
       <div class="col-md-5">
         <player [player]="player"></player>

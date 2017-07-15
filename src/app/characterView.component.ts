@@ -35,8 +35,7 @@ import {Item} from './item'
                   <td>{{item.def}}</td>
                   <td>
                     <input type="button" class="btn btn-default" *ngIf="item.type == 'heal'" value="Use" (click)="use(i)">
-                    <input type="button" class="btn btn-default" *ngIf="item.equipped == false" value="Equip" (click)="equip(i)">
-                    <input type="button" class="btn btn-default" *ngIf="item.equipped == true" value="Unequip" (click)="unequip(i)">
+                    <input type="button" class="btn btn-default" *ngIf="item.equipped == false && item.type == 'weapon' || item.type =='shield' " value="Equip" (click)="equip(i)">
                   </td>
                 </tr>
               </tbody>

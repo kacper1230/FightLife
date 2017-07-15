@@ -7,6 +7,8 @@ export const ITEMS: Item[] = [
   { id: 3, name: "Small healing potion", type:'heal',atk: 0, def: 0,equipped : false,value:20 },
   { id: 4, name: "Pro elo master sword", type:'weapon',atk: 100, def: 50,equipped : false,value:20 },
   { id: 5, name: "Dragon Sword", type:'weapon',atk: 13, def: 2,equipped : false,value:300 },
+  { id: 6, name: "Ząb baby jagi", type:'misc',atk: 0, def: 0,equipped : false,value:3 },
+
 ]
 
 export const ShopItems: Item[] = [
