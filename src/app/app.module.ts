@@ -10,7 +10,7 @@ import {PlayerService} from './player.service'
 import {MonsterService} from './monster.service'
 import {HomeComponent} from './home.component'
 import {ShopComponent} from './shop.component'
-
+import {PlaceService} from './place.service'
 import { AppComponent } from './app.component';
 
 const appRoutes:Routes = [
@@ -39,7 +39,7 @@ const appRoutes:Routes = [
     FormsModule,
     RouterModule.forRoot(appRoutes)
   ],
-  providers: [PlayerService,MonsterService],
+  providers: [PlayerService,MonsterService,PlaceService],
   bootstrap: [AppComponent]
 })
 export class AppModule { }

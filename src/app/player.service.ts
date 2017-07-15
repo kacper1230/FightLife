@@ -36,6 +36,8 @@ export class PlayerService {
       alive: true,
       gold : 0,
     }
+
+    this.equipped = [];
     return this.player;
   }
 

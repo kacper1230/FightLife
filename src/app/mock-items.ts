@@ -5,4 +5,10 @@ export const ITEMS: Item[] = [
   { id: 1, name: "Axe", type: 'weapon',atk: 8, def: 2,equipped : false,value:12 },
   { id: 2, name: "Shield", type: 'shield',atk: 0, def: 10,equipped : false,value:10},
   { id: 3, name: "Small healing potion", type:'heal',atk: 0, def: 0,equipped : false,value:20 },
+  { id: 4, name: "Pro elo master sword", type:'weapon',atk: 100, def: 50,equipped : false,value:20 },
+]
+
+export const ShopItems: Item[] = [
+  { id: 0, name: "Small healing potion", type:'heal',atk: 0, def: 0,equipped : false,value:20 },
+  { id: 1, name: "Pro elo master sword", type:'weapon',atk: 100, def: 50,equipped : false,value:0 },
 ]

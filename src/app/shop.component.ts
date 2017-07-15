@@ -1,5 +1,5 @@
 import { Component } from '@angular/core'
-import { ITEMS } from './mock-items'
+import { ITEMS , ShopItems} from './mock-items'
 import { Item } from './item'
 import { Player } from './player'
 import { PlayerService } from './player.service'
@@ -40,12 +40,13 @@ import { PlayerService } from './player.service'
         <th>Options</th>
       </thead>
       <tbody>
-        <tr *ngFor="let item of player.eq">
+        <tr *ngFor="let item of player.eq ; let i = index">
+        <td>{{i}}</td>
           <td>{{item.name}}</td>
           <td>{{item.atk}}</td>
           <td>{{item.def}}</td>
           <td>{{item.value}}</td>
-          <td><input class="btn btn-default" type="button" value="Sprzedaj" (click)="sell(item)"><input type="button" value="znajdz" (click)="znajdz(item)"></td>
+          <td><input class="btn btn-default" type="button" value="Sprzedaj" (click)="sell(i)"></td>
         </tr>
       </tbody>
     </table>
@@ -63,7 +64,7 @@ import { PlayerService } from './player.service'
 
 
 export class ShopComponent {
-  items: Item[] = ITEMS;
+  items: Item[] = ShopItems;
   player: Player;
   message: string;
 
@@ -71,21 +72,11 @@ export class ShopComponent {
     this.player = this._playerService.getPlayer();
   }
 
-  znajdz(item:Item):void{
-    console.log(this.player.eq);
 
-  }
-
-
-  sell(item: Item): void{
-    this.player.gold += item.value;
-//    console.log(this.checkItemName(item , this.player.eq));
-    this.player.eq = this.player.eq.filter(function (el){
-      return el.name != item.name;
-    });
-//    this.player.eq = this.player.eq.filter(item => item.name === item.name)
-//  this.player.eq.splice(this.player.eq.findIndex(item => item.name === item.name)-1,1);
-    this.message = "Sprzedales " + item.name + ".";
+  sell(index : number): void{
+    this.message = "Sprzedales " + this.player.eq[index].name + ".";
+    this.player.gold += this.player.eq[index].value;
+    this.player.eq.splice(index,1);
   }
 
 

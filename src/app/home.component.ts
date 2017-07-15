@@ -41,8 +41,5 @@ export class HomeComponent {
     this.MONSTERS = this._monsterService.getMonsters();
   }
 
-  respawnMonsters(): void {
-    this.MONSTERS = this._monsterService.respawnMonsters();
-  }
 
 }

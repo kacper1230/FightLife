@@ -7,49 +7,63 @@ import {Item} from './item'
 import {MonsterService} from './monster.service'
 import {CharacterViewComponent} from './characterView.component'
 import {PlayerService} from './player.service'
+import {PlaceService} from './place.service'
 import {ITEMS} from './mock-items'
+import {Place} from './place'
 
 
 @Component({
   selector: 'fightview',
   template: `
-<div class="container">
+<div class="container-fluid">
     <div class="row text-center">
-      <div class="col-md-6">
+      <div class="col-md-2">
+        <h3>Miejsca</h3>
+          <ul>
+            <li *ngFor="let place of places" (click)="setScope(place)">{{place.name}}</li>
+          </ul>
+      </div>
+      <div class="col-md-5">
         <player [player]="player"></player>
       </div>
-      <div class="col-md-6">
-        <monster [monster]="monster"></monster>
+      <div class="col-md-5">
+        <monster [monster]="monster" *ngIf="MONSTERS"></monster>
       </div>
     </div>
 
 <div class="row text-center">
-  <div class="btn-group ">
-      <input type="button" class="btn btn-default" (click)="startFight()" value="Zacznij walke">
-      <input type="button" class="btn btn-default" (click)="startFastFight()" value="Szybka walka">
-      <input type="button" class="btn btn-default" (click)="stopFight()" value="Zatrzymaj walke">
-  <!--    <input type="button" class="btn btn-default" (click)="nextTurn()" value="Nastepna tura"> -->
-  <!--    <input type="button" class="btn btn-default" (click)="levelUp(player)" value="Dodaj se levela gosciu">-->
-  <!--    <input type="button" class="btn btn-default" (click)="heal()" value="dodaj zycie">-->
-      <input type="button" class="btn btn-default" (click)="nextMonster()" value="Wylosuj nowego przeciwnika">
-  <!--    <input type="button" class="btn btn-default" (click)="restart()" value="zrestartuj">-->
-      <input type="button" class="btn btn-default" (click)="restart()" value="Zacznij od nowa" *ngIf="player.alive == false">
-  </div>
+  <div class="col-md-10 col-md-offset-2">
+    <div class="btn-group" *ngIf="MONSTERS">
+        <input type="button" class="btn btn-default" (click)="startFight()" value="Zacznij walke">
+        <input type="button" class="btn btn-default" (click)="startFastFight()" value="Szybka walka">
+        <input type="button" class="btn btn-default" (click)="stopFight()" value="Zatrzymaj walke">
+    <!--    <input type="button" class="btn btn-default" (click)="nextTurn()" value="Nastepna tura"> -->
+    <!--    <input type="button" class="btn btn-default" (click)="levelUp(player)" value="Dodaj se levela gosciu">-->
+    <!--    <input type="button" class="btn btn-default" (click)="heal()" value="dodaj zycie">-->
+        <input type="button" class="btn btn-default" (click)="nextMonster()" value="Wylosuj nowego przeciwnika">
+    <!--    <input type="button" class="btn btn-default" (click)="restart()" value="zrestartuj">-->
+        <input type="button" class="btn btn-default" (click)="restart()" value="Zacznij od nowa" *ngIf="player.alive == false">
+    </div>
 </div>
-    <br>
+</div>
+<br>
+<div class="row">
+  <div class="col-md-10 col-md-offset-2">
     <div class="panel panel-success">
       <div class="panel-body">
         {{message}}
-
       </div>
-
-      <div class="panel-footer">
+    <!--  <div class="panel-footer">
       <div class="text" style="font-family:'Comic Sans MS'; font-size:3em">Loot : </div>
         <ul>
           <li *ngFor="let item of loot"  style="font-family:'Comic Sans MS'; font-size:1.5em">{{item.name}} </li>
         </ul>
-      </div>
+      </div> -->
     </div>
+  </div>
+</div>
+    <br>
+
 
     </div>
     `,
@@ -64,37 +78,48 @@ export class FightViewComponent {
   monster: Monster;
 
   MONSTERS: Monster[];
+  places: Place[];
+  monstersScope: Monster[];
 
   counter: number;
   prog: number = 40;
   player: Player;
-  loot :Item[];
+  loot: Item[];
 
-  constructor(private _monsterService: MonsterService, private _playerService: PlayerService) {
+  constructor(private _monsterService: MonsterService, private _playerService: PlayerService, private _placeService: PlaceService) {
     this.player = this._playerService.player;
-
+    this.places = this._placeService.getPlaces();
   }
 
 
 
   ngOnInit() {
-    this.MONSTERS = this._monsterService.getMonsters();
+    //  this.MONSTERS = this._monsterService.getMonsters();
+    //  this.nextMonster();
+  }
+
+  setScope(place: Place): void {
+    this.MONSTERS = place.monstersScope;
     this.nextMonster();
   }
 
 
 
-
   startFight(): void {
-    this.fightInterval = setInterval(() => { this.nextTurn(); }, 500);
+    if (this.fightInterval == null) {
+      this.fightInterval = setInterval(() => { this.nextTurn(); }, 500);
+    }
   }
 
   startFastFight(): void {
-    this.fightInterval = setInterval(() => { this.nextTurn(); }, 50);
+    if (this.fightInterval == null) {
+      this.fightInterval = setInterval(() => { this.nextTurn(); }, 50);
+    }
   }
 
   stopFight(): void {
     clearInterval(this.fightInterval);
+    this.fightInterval = null;
   }
 
   attack(gracz: Player, przeciwnik: Monster): void {
@@ -111,12 +136,13 @@ export class FightViewComponent {
       if (this.player.exp >= this.prog) {
         this.levelUp(this.player);
       }
-      gracz.gold += Math.floor((Math.random()*40)+1);
-      if ((Math.round(Math.random() * 99) + 1) >= przeciwnik.dropChance) {
+      gracz.gold += Math.floor((Math.random() * 40) + 1);
+      if ((Math.round(Math.random() * 99) + 1) <= przeciwnik.dropChance) {
         var los: number = Math.round(Math.random() * (przeciwnik.drop.length - 1));
         gracz.eq.push(przeciwnik.drop[los]); // ------------------------------Tablica zaczyna sie od 0
         this.message = this.message + "Wydropiles : " + przeciwnik.drop[los].name + "\n";
       } else this.message = this.message + "Nic nie wypadlo gnoju \n";
+      przeciwnik.hp = przeciwnik.maxHp;
       this.nextMonster();
     } else {
       if (skutecznoscGracza <= 0) {
@@ -130,10 +156,6 @@ export class FightViewComponent {
       }
     }
 
-  }
-
-  respawnMonsters(): void {
-    this.MONSTERS = this._monsterService.respawnMonsters();
   }
 
   respawnPlayer(): void {
@@ -162,14 +184,7 @@ export class FightViewComponent {
   }
 
   nextMonster(): void {
-    this.respawnMonsters();
-    var lvlMonsterow;
-    if(this.player.lvl > this.MONSTERS.length){
-      lvlMonsterow = this.MONSTERS.length;
-    }else {
-      lvlMonsterow = this.player.lvl;
-    }
-    this.monster = this.MONSTERS[Math.floor((Math.random() * lvlMonsterow)) ];
+    this.monster = this.MONSTERS[Math.floor((Math.random() * this.MONSTERS.length))];
   }
 
   levelUp(gracz: Player): void {
