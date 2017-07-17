@@ -21,6 +21,13 @@ import {Item} from './item'
         </div>
         <div class="col-md-8">
           <h2 class="text-center">Equipment</h2>
+          <p class="text-center">
+          <input type="button" value="All" class="btn btn-default" (click)="eqType='all'">
+          <input type="button" value="Weapons" class="btn btn-default" (click)="eqType='weapon'">
+          <input type="button" value="Shields" class="btn btn-default" (click)="eqType='shield'">
+          <input type="button" value="Miscs" class="btn btn-default" (click)="eqType='misc'">
+          <input type="button" value="Healing Items" class="btn btn-default" (click)="eqType='heal'">
+          </p>
             <table class="table">
               <thead>
                 <th>Name</th>
@@ -29,11 +36,11 @@ import {Item} from './item'
                 <th>Options</th>
               </thead>
               <tbody>
-                <tr *ngFor="let item of player.eq; let i = index" [attr.data-index]="i">
-                  <td>{{item.name}}</td>
-                  <td>{{item.atk}}</td>
-                  <td>{{item.def}}</td>
-                  <td>
+                <tr  *ngFor="let item of player.eq; let i = index" [attr.data-index]="i">
+                  <td *ngIf="item.type == eqType || eqType == 'all' ">{{item.name}}</td>
+                  <td *ngIf="item.type == eqType || eqType == 'all' ">{{item.atk}}</td>
+                  <td *ngIf="item.type == eqType || eqType == 'all' ">{{item.def}}</td>
+                  <td *ngIf="item.type == eqType || eqType == 'all'">
                     <input type="button" class="btn btn-default" *ngIf="item.type == 'heal'" value="Use" (click)="use(i)">
                     <input type="button" class="btn btn-default" *ngIf="item.equipped == false && item.type == 'weapon' || item.type =='shield' " value="Equip" (click)="equip(i)">
                   </td>
@@ -74,6 +81,7 @@ export class CharacterViewComponent {
   player: Player;
   equipped :Item[];
   message:string;
+  eqType : string = 'all';
 
   constructor(private _playerService: PlayerService) {
     this.player = this._playerService.getPlayer();

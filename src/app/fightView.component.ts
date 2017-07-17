@@ -184,6 +184,7 @@ export class FightViewComponent {
   }
 
   restart(): void {
+
     this.respawnPlayer();
     this.prog = 40;
     this.nextMonster();
